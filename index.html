@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123B67">
+
+  <title>Mi asistente Gemini</title>
+
+  <style>
+    :root {
+      --azul-oscuro: #123B67;
+      --azul-principal: #2563EB;
+      --azul-hover: #1D4ED8;
+      --azul-claro: #EFF6FF;
+      --azul-borde: #D5E2F2;
+      --fondo: #F4F7FB;
+      --texto: #1E293B;
+      --texto-secundario: #64748B;
+      --blanco: #FFFFFF;
+      --sombra: 0 12px 35px rgba(18, 59, 103, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 48px 20px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--texto);
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          #E1EDFF 0,
+          var(--fondo) 420px
+        );
+      line-height: 1.6;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .encabezado {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .icono {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 62px;
+      height: 62px;
+      margin-bottom: 14px;
+      border-radius: 18px;
+      color: var(--blanco);
+      background: linear-gradient(
+        135deg,
+        var(--azul-oscuro),
+        var(--azul-principal)
+      );
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
+    }
+
+    .icono svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: var(--azul-oscuro);
+      font-size: clamp(1.8rem, 5vw, 2.35rem);
+      font-weight: 750;
+      letter-spacing: -0.8px;
+      line-height: 1.25;
+    }
+
+    .subtitulo {
+      max-width: 480px;
+      margin: 0 auto;
+      color: var(--texto-secundario);
+      font-size: 1rem;
+    }
+
+    .tarjeta {
+      overflow: hidden;
+      border: 1px solid rgba(213, 226, 242, 0.9);
+      border-radius: 20px;
+      background: var(--blanco);
+      box-shadow: var(--sombra);
+    }
+
+    .tarjeta-cabecera {
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--azul-borde);
+      background: #FAFCFF;
+    }
+
+    .tarjeta-cabecera h2 {
+      margin: 0;
+      color: var(--azul-oscuro);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .tarjeta-cabecera p {
+      margin: 4px 0 0;
+      color: var(--texto-secundario);
+      font-size: 0.9rem;
+    }
+
+    .contenido {
+      padding: 28px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      color: var(--azul-oscuro);
+      font-size: 0.95rem;
+      font-weight: 650;
+    }
+
+    input {
+      width: 100%;
+      min-height: 50px;
+      padding: 12px 15px;
+      border: 1px solid #CBD5E1;
+      border-radius: 10px;
+      outline: none;
+      background: var(--blanco);
+      color: var(--texto);
+      font: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input::placeholder {
+      color: #94A3B8;
+    }
+
+    input:hover {
+      border-color: #94B4E8;
+    }
+
+    input:focus {
+      border-color: var(--azul-principal);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      margin-top: 6px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      color: var(--blanco);
+      background: var(--azul-principal);
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18);
+      transition: background 0.2s, transform 0.2s,
+                  box-shadow 0.2s;
+    }
+
+    button:hover {
+      background: var(--azul-hover);
+      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:focus-visible {
+      outline: 3px solid #93C5FD;
+      outline-offset: 3px;
+    }
+
+    .icono-boton {
+      width: 19px;
+      height: 19px;
+      flex-shrink: 0;
+    }
+
+    .seccion-resultado {
+      margin-top: 26px;
+    }
+
+    #estado {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 0;
+      margin: 0 0 12px;
+      color: var(--texto-secundario);
+      font-size: 0.9rem;
+      overflow-wrap: anywhere;
+    }
+
+    #estado:not(:empty) {
+      padding: 11px 14px;
+      border: 1px solid var(--azul-borde);
+      border-radius: 9px;
+      background: var(--azul-claro);
+    }
+
+    #resultado {
+      color: var(--texto);
+      font-size: 0.98rem;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    #resultado:not(:empty) {
+      padding: 22px;
+      border: 1px solid var(--azul-borde);
+      border-radius: 12px;
+      background: #FCFDFF;
+      white-space: pre-wrap;
+    }
+
+    .pie {
+      margin-top: 24px;
+      color: var(--texto-secundario);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 28px 14px;
+      }
+
+      .encabezado {
+        margin-bottom: 22px;
+      }
+
+      .tarjeta {
+        border-radius: 15px;
+      }
+
+      .tarjeta-cabecera {
+        padding: 19px 20px;
+      }
+
+      .contenido {
+        padding: 22px 20px;
+      }
+
+      #resultado:not(:empty) {
+        padding: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="contenedor">
+
+    <header class="encabezado">
+      <div class="icono" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-2-5.8L4 11l6-2.2L12 3z"/>
+          <path d="M19 14l1.1 2.9L23 18l-2.9 1.1L19 22l-1.1-2.9L15 18l2.9-1.1L19 14z"/>
+        </svg>
+      </div>
+
+      <h1>Consulta turística</h1>
+      <p class="subtitulo">
+        Descubre información sobre cualquier ciudad
+        con la ayuda de tu asistente Gemini.
+      </p>
+    </header>
+
+    <section class="tarjeta">
+      <div class="tarjeta-cabecera">
+        <h2>¿Qué ciudad quieres conocer?</h2>
+        <p>Introduce el nombre de la ciudad para iniciar la consulta.</p>
+      </div>
+
+      <div class="contenido">
+        <form id="formulario">
+          <label for="ciudad">Nombre de la ciudad</label>
+
+          <input
+            id="ciudad"
+            name="ciudad"
+            type="text"
+            placeholder="Ej.: Hamburgo, Santander, Roma..."
+            autocomplete="off"
+            required
+            maxlength="100"
+          >
+
+          <button type="submit">
+            <svg class="icono-boton"
+                 viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2L12 3z"/>
+            </svg>
+            Consultar a Gemini
+          </button>
+        </form>
+
+        <div class="seccion-resultado">
+          <p id="estado" role="status" aria-live="polite"></p>
+          <div id="resultado"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pie">
+      Asistente de información turística
+    </footer>
+
+  </main>
+
+  <script>
+    const API_URL =
+      "https://gemini-formulario.TU-CUENTA.workers.dev";
+
+    const formulario = document.getElementById("formulario");
+    const estado = document.getElementById("estado");
+    const resultado = document.getElementById("resultado");
+
+    formulario.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+
+      const ciudad = document.getElementById("ciudad").value.trim();
+
+      estado.textContent = "Consultando a Gemini...";
+      resultado.textContent = "";
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ ciudad })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Error en la consulta");
+        }
+
+        resultado.textContent = data.respuesta;
+        estado.textContent = "Respuesta recibida.";
+
+      } catch (error) {
+        estado.textContent = "No se ha podido obtener la respuesta.";
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
