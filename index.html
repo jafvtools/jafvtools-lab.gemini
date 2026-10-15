@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -99,7 +100,6 @@
 
     .tarjeta-cabecera {
       padding: 22px 28px;
-      border-bottom: 1px solid var(--azul-borde);
       background: #FAFCFF;
     }
 
@@ -117,7 +117,7 @@
     }
 
     .contenido {
-      padding: 28px;
+      padding: 12px;
     }
 
     form {
@@ -293,28 +293,25 @@
         </svg>
       </div>
 
-      <h1>Consulta turística</h1>
+      <h1>Hola ¿Qué tal? Me llamo Pepe</h1>
       <p class="subtitulo">
-        Descubre información sobre cualquier ciudad
-        con la ayuda de tu asistente Gemini.
+        Voy a darte toda la información que necesites para tu próximo viaje.
       </p>
     </header>
 
     <section class="tarjeta">
       <div class="tarjeta-cabecera">
-        <h2>¿Qué ciudad quieres conocer?</h2>
+        <h2>¿De qué ciudad quieres información?</h2>
         <p>Introduce el nombre de la ciudad para iniciar la consulta.</p>
       </div>
 
       <div class="contenido">
         <form id="formulario">
-          <label for="ciudad">Nombre de la ciudad</label>
-
           <input
             id="ciudad"
             name="ciudad"
             type="text"
-            placeholder="Ej.: Hamburgo, Santander, Roma..."
+            placeholder="Ej.: Madrid, Córdoba, Hamburgo..."
             autocomplete="off"
             required
             maxlength="100"
@@ -358,7 +355,7 @@
 
       const ciudad = document.getElementById("ciudad").value.trim();
 
-      estado.textContent = "Consultando a Gemini...";
+      estado.textContent = "Consultando a Pepe...";
       resultado.textContent = "";
 
       try {
